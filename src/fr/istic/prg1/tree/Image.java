@@ -1,5 +1,6 @@
 package fr.istic.prg1.tree;
 
+import java.awt.Dimension;
 import java.util.Scanner;
 
 import fr.istic.prg1.tree_util.AbstractImage;
@@ -38,12 +39,38 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public boolean isPixelOn(int x, int y) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
-	    return false;
+		Dimension dim = new Dimension(256,256);
+		int xbas = 0;
+		int ybas = 0;
+		int cpt = 0;
+		Iterator<Node> it = this.iterator();
+		//it.nodeType().equals(NodeType.DOUBLE
+		while(it.getValue().state == 2) {
+			cpt++;
+			if(cpt%2 == 1) {
+				 if((dim.height + ybas)/2 <= y){
+					 ybas = (dim.height + ybas)/2;
+					 it.goRight();
+				 }else {
+					 dim.height = (dim.height + ybas)/2;
+					 it.goLeft();
+				 }
+			}else {
+				 if((dim.width + xbas)/2 <= x){
+					 xbas = (dim.width+ xbas)/2;
+					 it.goRight();
+				 }else {
+					 dim.width = (dim.width+ xbas)/2;
+					 it.goLeft();
+				 }
+			}
+		}
+		if(it.getValue().state == 1) {
+			 return true;
+		}else {
+			 return false;
+		 }
+	   
 	}
 
 	/**
@@ -58,7 +85,7 @@ public class Image extends AbstractImage {
 	public void affect(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -74,7 +101,7 @@ public class Image extends AbstractImage {
 	public void rotate180(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -91,7 +118,7 @@ public class Image extends AbstractImage {
 	public void rotate90(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction non demeandée");
+		System.out.println("Fonction non demeandï¿½e");
 		System.out.println("-------------------------------------------------");
 		System.out.println();	    
 	}
@@ -105,7 +132,7 @@ public class Image extends AbstractImage {
 	public void videoInverse() {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -121,7 +148,7 @@ public class Image extends AbstractImage {
 	public void mirrorV(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -137,7 +164,7 @@ public class Image extends AbstractImage {
 	public void mirrorH(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -154,7 +181,7 @@ public class Image extends AbstractImage {
 	public void zoomIn(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -171,7 +198,7 @@ public class Image extends AbstractImage {
 	public void zoomOut(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -189,7 +216,7 @@ public class Image extends AbstractImage {
 	public void intersection(AbstractImage image1, AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -206,7 +233,7 @@ public class Image extends AbstractImage {
 	public void union(AbstractImage image1, AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	}
@@ -221,7 +248,7 @@ public class Image extends AbstractImage {
 	public boolean testDiagonal() {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	    return false;
@@ -244,7 +271,7 @@ public class Image extends AbstractImage {
 	public boolean sameLeaf(int x1, int y1, int x2, int y2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 		return false;
@@ -261,7 +288,7 @@ public class Image extends AbstractImage {
 	public boolean isIncludedIn(AbstractImage image2) {
 		System.out.println();
 		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction à écrire");
+		System.out.println("Fonction ï¿½ ï¿½crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
 	    return false;
