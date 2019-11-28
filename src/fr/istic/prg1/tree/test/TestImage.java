@@ -1,5 +1,6 @@
 package fr.istic.prg1.tree.test;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -323,6 +324,11 @@ public class TestImage {
 	@Test
 	public void testAffect1() {
 		Image image1 = readFile("a1.arb");
+		File f = new File("a1.arb");
+		if (!f.canRead()) {
+			System.out.println("fichier introuvable");
+			return;
+		}
 		Image image2 = new Image();
 		image2.affect(image1);
 		assertTrue("affect a1", compareImages(image1, image2));

@@ -88,22 +88,34 @@ public class Image extends AbstractImage {
 		it.clear();
 		affectAux(it,it2);
 	}
+	
 	public void affectAux(Iterator<Node> it,Iterator<Node> it2) {
+		if(it2.nodeType().equals(NodeType.LEAF)) {
+			it.addValue(it2.getValue());
+
+
+		}
+
 		if(it2.nodeType().equals(NodeType.DOUBLE)) {
-			
-			it.setValue(it2.getValue());
-			
+
+			it.addValue(it2.getValue());
+
 			it2.goLeft();
 			it.goLeft();
-			
 
+			affectAux(it,it2);
+
+			it2.goUp();
+			it.goUp();
+
+			it2.goRight();
+			it.goRight();
+			
+			
 			affectAux(it,it2);
 			
 			it2.goUp();
 			it.goUp();
-			
-			it2.goRight();
-			it.goRight();
 		}
 	}
 
@@ -116,11 +128,39 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public void rotate180(AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		it.clear();
+		rotateAux(it,it2);
+	}
+	
+	public void rotateAux(Iterator<Node> it,Iterator<Node> it2) {
+		if(it2.nodeType().equals(NodeType.LEAF)) {
+			it.addValue(it2.getValue());
+
+		}
+
+		if(it2.nodeType().equals(NodeType.DOUBLE)) {
+
+			it.addValue(it2.getValue());
+
+			it2.goLeft();
+			it.goRight();
+
+			rotateAux(it,it2);
+
+			it2.goUp();
+			it.goUp();
+
+			it2.goRight();
+			it.goLeft();
+			
+			
+			rotateAux(it,it2);
+			
+			it2.goUp();
+			it.goUp();
+		}
 	}
 
 	/**
