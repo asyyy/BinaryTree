@@ -48,29 +48,29 @@ public class Image extends AbstractImage {
 		while(it.getValue().state == 2) {
 			cpt++;
 			if(cpt%2 == 1) {
-				 if((dim.height + ybas)/2 <= y){
-					 ybas = (dim.height + ybas)/2;
-					 it.goRight();
-				 }else {
-					 dim.height = (dim.height + ybas)/2;
-					 it.goLeft();
-				 }
+				if((dim.height + ybas)/2 <= y){
+					ybas = (dim.height + ybas)/2;
+					it.goRight();
+				}else {
+					dim.height = (dim.height + ybas)/2;
+					it.goLeft();
+				}
 			}else {
-				 if((dim.width + xbas)/2 <= x){
-					 xbas = (dim.width+ xbas)/2;
-					 it.goRight();
-				 }else {
-					 dim.width = (dim.width+ xbas)/2;
-					 it.goLeft();
-				 }
+				if((dim.width + xbas)/2 <= x){
+					xbas = (dim.width+ xbas)/2;
+					it.goRight();
+				}else {
+					dim.width = (dim.width+ xbas)/2;
+					it.goLeft();
+				}
 			}
 		}
 		if(it.getValue().state == 1) {
-			 return true;
+			return true;
 		}else {
-			 return false;
-		 }
-	   
+			return false;
+		}
+
 	}
 
 	/**
@@ -83,11 +83,28 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public void affect(AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		it.clear();
+		affectAux(it,it2);
+	}
+	public void affectAux(Iterator<Node> it,Iterator<Node> it2) {
+		if(it2.nodeType().equals(NodeType.DOUBLE)) {
+			
+			it.setValue(it2.getValue());
+			
+			it2.goLeft();
+			it.goLeft();
+			
+
+			affectAux(it,it2);
+			
+			it2.goUp();
+			it.goUp();
+			
+			it2.goRight();
+			it.goRight();
+		}
 	}
 
 	/**
@@ -251,7 +268,7 @@ public class Image extends AbstractImage {
 		System.out.println("Fonction � �crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
-	    return false;
+		return false;
 	}
 
 	/**
@@ -291,7 +308,7 @@ public class Image extends AbstractImage {
 		System.out.println("Fonction � �crire");
 		System.out.println("-------------------------------------------------");
 		System.out.println();
-	    return false;
+		return false;
 	}
 
 }
