@@ -44,7 +44,6 @@ public class Image extends AbstractImage {
 		int ybas = 0;
 		int cpt = 0;
 		Iterator<Node> it = this.iterator();
-		//it.nodeType().equals(NodeType.DOUBLE
 		while(it.getValue().state == 2) {
 			cpt++;
 			if(cpt%2 == 1) {
@@ -92,10 +91,7 @@ public class Image extends AbstractImage {
 	public void affectAux(Iterator<Node> it,Iterator<Node> it2) {
 		if(it2.nodeType().equals(NodeType.LEAF)) {
 			it.addValue(it2.getValue());
-
-
 		}
-
 		if(it2.nodeType().equals(NodeType.DOUBLE)) {
 
 			it.addValue(it2.getValue());
@@ -221,11 +217,70 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public void mirrorV(AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		int cpt = 1;
+		it.clear();
+		mirrorVAux(it,it2, cpt);
+	}
+
+	public void mirrorVAux(Iterator<Node> it, Iterator<Node> it2, int cpt) {
+		if (cpt%2 == 1) { // on est en d�coupage vertical
+			if(it2.nodeType().equals(NodeType.LEAF)) {
+				it.addValue(it2.getValue());
+			}
+
+			if(it2.nodeType().equals(NodeType.DOUBLE)) {
+
+				it.addValue(it2.getValue());
+
+				it2.goLeft();
+				it.goRight();
+
+				mirrorVAux(it,it2, 2);
+
+				it2.goUp();
+				it.goUp();
+
+				it2.goRight();
+				it.goLeft();
+				
+				
+				mirrorVAux(it,it2,2);
+				
+				it2.goUp();
+				it.goUp();
+			}
+			
+		}
+		else {
+			if(it2.nodeType().equals(NodeType.LEAF)) {
+				it.addValue(it2.getValue());
+			}
+			
+			if(it2.nodeType().equals(NodeType.DOUBLE)) {
+
+				it.addValue(it2.getValue());
+
+				it2.goLeft();
+				it.goLeft();
+
+				mirrorVAux(it,it2, 1);
+
+				it2.goUp();
+				it.goUp();
+
+				it2.goRight();
+				it.goRight();
+				
+				
+				mirrorVAux(it,it2, 1);
+				
+				it2.goUp();
+				it.goUp();
+			}
+		}
+		
 	}
 
 	/**
@@ -237,11 +292,69 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public void mirrorH(AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		int cpt = 0;
+		it.clear();
+		mirrorHAux(it,it2, cpt);
+	}
+
+	public void mirrorHAux(Iterator<Node> it, Iterator<Node> it2, int cpt) {
+		if (cpt%2 == 1) { // on est en d�coupage horizontal
+			if(it2.nodeType().equals(NodeType.LEAF)) {
+				it.addValue(it2.getValue());
+			}
+
+			if(it2.nodeType().equals(NodeType.DOUBLE)) {
+
+				it.addValue(it2.getValue());
+
+				it2.goLeft();
+				it.goRight();
+
+				mirrorHAux(it,it2, 2);
+
+				it2.goUp();
+				it.goUp();
+
+				it2.goRight();
+				it.goLeft();
+				
+				
+				mirrorHAux(it,it2,2);
+				
+				it2.goUp();
+				it.goUp();
+			}
+			
+		}
+		else {
+			if(it2.nodeType().equals(NodeType.LEAF)) {
+				it.addValue(it2.getValue());
+			}
+			
+			if(it2.nodeType().equals(NodeType.DOUBLE)) {
+
+				it.addValue(it2.getValue());
+
+				it2.goLeft();
+				it.goLeft();
+
+				mirrorHAux(it,it2, 1);
+
+				it2.goUp();
+				it.goUp();
+
+				it2.goRight();
+				it.goRight();
+				
+				
+				mirrorHAux(it,it2, 1);
+				
+				it2.goUp();
+				it.goUp();
+			}
+		}
 	}
 
 	/**
@@ -254,12 +367,18 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public void zoomIn(AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		it.clear();
+		//on tente d'aller 2 fois a gauche pour r�cuperer le sous arbre de quart en haut � gauche
+		// si on y arrive pas on affecte directement le sous-arbre 
+		if (it2.nodeType().equals(NodeType.DOUBLE))it2.goLeft();
+		else {affectAux(it,it2); return;}
+		if (it2.nodeType().equals(NodeType.DOUBLE))it2.goLeft();
+		else {affectAux(it,it2); return;}
+		affectAux(it,it2);
 	}
+	
 
 	/**
 	 * Le quart supérieur gauche de this devient image2, le reste de this
@@ -271,11 +390,25 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public void zoomOut(AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		it.clear();
+		
+		it.addValue(Node.valueOf(2));
+		it.goRight();
+		it.addValue(Node.valueOf(0));
+		it.goUp();
+		it.goLeft();
+		
+		it.addValue(Node.valueOf(2));
+		it.goRight();
+		it.addValue(Node.valueOf(0));
+		it.goUp();
+		it.goLeft();
+
+		affectAux(it,it2);
+		
+	
 	}
 
 	/**
