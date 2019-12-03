@@ -406,11 +406,75 @@ public class Image extends AbstractImage {
 		it.goUp();
 		it.goLeft();
 
-		affectAux(it,it2);
-		
+		zoomOutAux(it, it2, 0);
+
+		if (it.getValue().state == 0){
+			it.goRoot();
+			it.clear();
+			it.addValue(Node.valueOf(0));
+		}
 	
 	}
+	public void zoomOutAux(Iterator<Node> it, Iterator<Node> it2, int profondeur) {
 
+		int right;
+		int left;
+
+		if (profondeur < 14) {
+
+			if (it2.nodeType().equals(NodeType.DOUBLE)) {
+				it.addValue(it2.getValue());
+
+				it.goLeft();
+				it2.goLeft();
+
+				zoomOutAux(it, it2, profondeur + 1);
+
+				left = it.getValue().state;
+
+				it.goUp();
+				it2.goUp();
+
+				it.goRight();
+				it2.goRight();
+
+				zoomOutAux(it, it2, profondeur + 1);
+
+				right = it.getValue().state;
+
+				it.goUp();
+				it2.goUp();
+
+				if (left == right && right != 2) {
+					it.clear();
+					it.addValue(Node.valueOf(right));
+				}
+
+			} else it.addValue(it2.getValue());
+
+		} else {
+			if(it2.nodeType().equals(NodeType.DOUBLE)) {
+
+				it2.goLeft();
+
+				left = it2.getValue().state;
+
+				it2.goUp();
+				it2.goRight();
+
+				right = it2.getValue().state;
+
+				it2.goUp();
+
+				if ((left == 0 && right == 2) || (left == 0 && right == 0) || (left == 2 && right == 0)){
+					it.addValue(Node.valueOf(0));
+				}else{
+					it.addValue(Node.valueOf(1));
+				}
+									
+			} else it.addValue(it2.getValue());
+		}
+	}
 	/**
 	 * this devient l'intersection de image1 et image2 au sens des pixels
 	 * allumés.
@@ -454,13 +518,46 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public boolean testDiagonal() {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
-		return false;
+		Iterator<Node> it = this.iterator();
+
+        diagonalAux(it, 0,0,255,1);
+
+		return it.getValue().state == 1;
 	}
+	
+	private void diagonalAux(Iterator<Node> it, int x, int bas, int haut, int profondeur) {
+
+		if (it.nodeType().equals(NodeType.DOUBLE)) {
+
+			int milieu = (bas + haut)/2;
+
+			if (profondeur%2 == 0) {
+
+				if (x <= milieu) {
+					it.goLeft();
+					diagonalAux(it, x, bas, milieu, profondeur+1);
+				}
+				else {
+					it.goRight();
+					diagonalAux(it, x, milieu+1, haut, profondeur+1);
+				}
+
+			} else {
+
+				if (x <= milieu) {
+					it.goLeft();
+				}else {
+					it.goRight();
+				}
+				diagonalAux(it, x, bas, haut, profondeur+1);
+			}
+		}
+		else if (it.getValue().state == 1 && x <= 255){
+			it.goRoot();
+			diagonalAux(it, x + 1, 0, 255, 1);
+		}
+	}
+
 
 	/**
 	 * @param x1
@@ -494,12 +591,51 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public boolean isIncludedIn(AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
-		return false;
+		Iterator<Node> it = this.iterator();
+
+		Iterator<Node> it2 = image2.iterator();
+
+		if (it.getValue().state == 1 ) {
+			
+			return it.getValue().state == it2.getValue().state;
+			
+		} else if(it.getValue().state == 0) {
+			
+			return true;
+			
+		} else {
+		    includeAux(it, it2);
+		}
+
+		return  it.getValue().state == it2.getValue().state;
 	}
+	
+	 public void includeAux(Iterator<Node> it1, Iterator<Node> it2) {
+
+	        if (it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
+
+	            it1.goLeft();
+	            it2.goLeft();
+
+	            includeAux(it1, it2);
+
+	            if (!(it1.getValue().state != 0 && it2.getValue().state == 0)) {
+
+	                it2.goUp();
+	                it1.goUp();
+
+	                it1.goRight();
+	                it2.goRight();
+
+	                includeAux(it1, it2);
+
+	                if (!(it1.getValue().state != 0 && it2.getValue().state == 0)) {
+	                    it1.goUp();
+	                    it2.goUp();
+	                }
+	            }
+
+	        }
+	    }
 
 }
