@@ -485,6 +485,7 @@ public class Image extends AbstractImage {
 	 * @param image2 seconde image
 	 */
 @Override
+@Override
 	public void intersection(AbstractImage image1, AbstractImage image2) {
 	
 		Iterator<Node> it = this.iterator();
@@ -492,6 +493,7 @@ public class Image extends AbstractImage {
 		Iterator<Node> it2 = image2.iterator();
 		it.clear();
 		intersectionAux(it,it1,it2);
+		//removeDoublons();
 		
 	}
 	
@@ -539,6 +541,35 @@ public class Image extends AbstractImage {
 			it.addValue(Node.valueOf(0));
 		}
 	}
+	
+	public void removeDoublons() {
+		Iterator<Node> it = this.iterator();
+		removeDoublonsAux(it);
+	}
+	
+	public void removeDoublonsAux(Iterator<Node> it) {
+		
+		if (it.nodeType().equals(NodeType.DOUBLE)) {
+			int gauche = 0;
+			int droite = 0;
+			
+			it.goLeft();
+			gauche = it.getValue().state;
+			if(gauche == 2) removeDoublonsAux(it);
+			
+			it.goUp();
+			it.goRight();
+			droite = it.getValue().state;
+			if(droite == 2) removeDoublonsAux(it);
+			it.goUp();
+			
+			if (gauche == droite) {
+				it.clear();
+				it.addValue(Node.valueOf(droite));}
+		}
+		
+		
+	}
 
 	/**
 	 * this devient l'union de image1 et image2 au sens des pixels allumés.
@@ -550,11 +581,57 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public void union(AbstractImage image1, AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it1 = image1.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		it.clear();
+		unionAux(it,it1,it2);
+		//removeDoublons();
+	}
+
+	public void unionAux(Iterator<Node> it, Iterator<Node> it1, Iterator<Node> it2) {
+		
+		if(it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
+
+			it.addValue(Node.valueOf(2));
+
+			it1.goLeft();
+			it2.goLeft();
+			it.goLeft();
+
+			unionAux(it,it1,it2);
+
+			it.goUp();
+			it1.goUp();
+			it2.goUp();
+
+			it.goRight();
+			it1.goRight();
+			it2.goRight();
+			
+			unionAux(it,it1,it2);
+			
+			it.goUp();
+			it1.goUp();
+			it2.goUp();
+		}
+		else if (it1.getValue().state == 0 && it2.getValue().state == 0) {
+			it.addValue(Node.valueOf(0));
+		}
+		else if (it1.getValue().state == 2 && it2.getValue().state == 1) 
+				{
+			affectAux(it,it1);
+			//removeDoublons();
+			return;
+		}
+		else if (it1.getValue().state == 1 && it2.getValue().state == 2) {
+			affectAux(it,it2);
+			//removeDoublons();
+			return;
+		}
+		else if (it1.getValue().state == 1 || it2.getValue().state == 1){
+			it.addValue(Node.valueOf(1));
+		}
 	}
 
 	/**
