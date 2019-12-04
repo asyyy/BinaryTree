@@ -484,13 +484,60 @@ public class Image extends AbstractImage {
 	 * @param image1 premiere image
 	 * @param image2 seconde image
 	 */
-	@Override
+@Override
 	public void intersection(AbstractImage image1, AbstractImage image2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
+	
+		Iterator<Node> it = this.iterator();
+		Iterator<Node> it1 = image1.iterator();
+		Iterator<Node> it2 = image2.iterator();
+		it.clear();
+		intersectionAux(it,it1,it2);
+		
+	}
+	
+	public void intersectionAux(Iterator<Node> it, Iterator<Node> it1, Iterator<Node> it2) {
+		
+		if(it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
+
+			it.addValue(Node.valueOf(2));
+
+			it1.goLeft();
+			it2.goLeft();
+			it.goLeft();
+
+			intersectionAux(it,it1,it2);
+
+			it.goUp();
+			it1.goUp();
+			it2.goUp();
+
+			it.goRight();
+			it1.goRight();
+			it2.goRight();
+			
+			intersectionAux(it,it1,it2);
+			
+			it.goUp();
+			it1.goUp();
+			it2.goUp();
+		}
+		else if (it1.getValue().state == 1 && it2.getValue().state == 1) {
+			it.addValue(Node.valueOf(1));
+		}
+		else if (it1.getValue().state == 2 && it2.getValue().state == 1) 
+				{
+			affectAux(it,it1);
+			//removeDoublons();
+			return;
+		}
+		else if (it1.getValue().state == 1 && it2.getValue().state == 2) {
+			affectAux(it,it2);
+			//removeDoublons();
+			return;
+		}
+		else if (it1.getValue().state == 0 || it2.getValue().state == 0){
+			it.addValue(Node.valueOf(0));
+		}
 	}
 
 	/**
