@@ -532,13 +532,14 @@ public class Image extends AbstractImage {
 		if(it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
 
 			it.addValue(Node.valueOf(2));
-			
+
 			it.goLeft();
 			it1.goLeft();
 			it2.goLeft();
-			
 
-			intersectionOuUnion(it,it1,it2,valeur);
+			int gauche = it.getValue().state;
+			
+			intersectionOuUnion(it, it1, it2, valeur);
 
 			it.goUp();
 			it1.goUp();
@@ -547,12 +548,18 @@ public class Image extends AbstractImage {
 			it.goRight();
 			it1.goRight();
 			it2.goRight();
-			
-			intersectionOuUnion(it,it1,it2,valeur);
-			
+
+			int droite = it.getValue().state;
+			intersectionOuUnion(it, it1, it2, valeur);
+
 			it.goUp();
 			it1.goUp();
 			it2.goUp();
+			
+			if (gauche == droite && droite != 2) {
+				it.clear();
+				it.setValue(Node.valueOf(droite));
+			}
 		}
 		
 		else if (it1.getValue().state == 2 && it2.getValue().state == 1) 
@@ -576,34 +583,6 @@ public class Image extends AbstractImage {
 		}
 	}
 	
-
-	public void removeDoublons(Iterator<Node> it) {
-
-		try {
-			int gauche = -1;
-			int droite = -1;
-			it.goUp();
-			it.goLeft();
-			if (!it.nodeType().equals(NodeType.SENTINEL)) {
-				gauche = it.getValue().state;
-			}
-			it.goUp();
-			it.goRight();
-			if (!it.nodeType().equals(NodeType.SENTINEL)) {
-				droite = it.getValue().state;
-			}
-			it.goUp();
-			if (gauche != -1 && droite != -1 && gauche == droite) {
-				it.clear();
-				it.addValue(Node.valueOf(gauche));
-			}
-		} catch (AssertionError e) {
-			System.out.println("On est à la racine !");
-		}
-		
-	}
-	
-
 
 	/**
 	 * Attention : cette fonction ne doit pas utiliser la commande isPixelOn
