@@ -485,92 +485,16 @@ public class Image extends AbstractImage {
 	 * @param image2 seconde image
 	 */
 @Override
-@Override
 	public void intersection(AbstractImage image1, AbstractImage image2) {
 	
 		Iterator<Node> it = this.iterator();
 		Iterator<Node> it1 = image1.iterator();
 		Iterator<Node> it2 = image2.iterator();
 		it.clear();
-		intersectionAux(it,it1,it2);
-		//removeDoublons();
+		intersectionOuUnion(it,it1,it2,1);
 		
 	}
 	
-	public void intersectionAux(Iterator<Node> it, Iterator<Node> it1, Iterator<Node> it2) {
-		
-		if(it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
-
-			it.addValue(Node.valueOf(2));
-
-			it1.goLeft();
-			it2.goLeft();
-			it.goLeft();
-
-			intersectionAux(it,it1,it2);
-
-			it.goUp();
-			it1.goUp();
-			it2.goUp();
-
-			it.goRight();
-			it1.goRight();
-			it2.goRight();
-			
-			intersectionAux(it,it1,it2);
-			
-			it.goUp();
-			it1.goUp();
-			it2.goUp();
-		}
-		else if (it1.getValue().state == 1 && it2.getValue().state == 1) {
-			it.addValue(Node.valueOf(1));
-		}
-		else if (it1.getValue().state == 2 && it2.getValue().state == 1) 
-				{
-			affectAux(it,it1);
-			//removeDoublons();
-			return;
-		}
-		else if (it1.getValue().state == 1 && it2.getValue().state == 2) {
-			affectAux(it,it2);
-			//removeDoublons();
-			return;
-		}
-		else if (it1.getValue().state == 0 || it2.getValue().state == 0){
-			it.addValue(Node.valueOf(0));
-		}
-	}
-	
-	public void removeDoublons() {
-		Iterator<Node> it = this.iterator();
-		removeDoublonsAux(it);
-	}
-	
-	public void removeDoublonsAux(Iterator<Node> it) {
-		
-		if (it.nodeType().equals(NodeType.DOUBLE)) {
-			int gauche = 0;
-			int droite = 0;
-			
-			it.goLeft();
-			gauche = it.getValue().state;
-			if(gauche == 2) removeDoublonsAux(it);
-			
-			it.goUp();
-			it.goRight();
-			droite = it.getValue().state;
-			if(droite == 2) removeDoublonsAux(it);
-			it.goUp();
-			
-			if (gauche == droite) {
-				it.clear();
-				it.addValue(Node.valueOf(droite));}
-		}
-		
-		
-	}
-
 	/**
 	 * this devient l'union de image1 et image2 au sens des pixels allumés.
 	 * 
@@ -585,21 +509,36 @@ public class Image extends AbstractImage {
 		Iterator<Node> it1 = image1.iterator();
 		Iterator<Node> it2 = image2.iterator();
 		it.clear();
-		unionAux(it,it1,it2);
-		//removeDoublons();
+		intersectionOuUnion(it,it1,it2,0);
 	}
+	
+	/**
+	* Fonction qui fait l'intersection ou l'union (en fonction du paramètre value)
+	*
+	* @param it l'itérateur de this
+	* @param it1 l'térateur de l'image 1
+	* @param it2 l'térateur de l'image 2
+	* @param value qui dit si on fait une union ou l'intersection
+	* 0 -> union
+	* 1 -> intersection
+	*
+	*
+	*
+	*
+	*/
 
-	public void unionAux(Iterator<Node> it, Iterator<Node> it1, Iterator<Node> it2) {
+	public void intersectionOuUnion(Iterator<Node> it, Iterator<Node> it1, Iterator<Node> it2, int valeur) {
 		
 		if(it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
 
 			it.addValue(Node.valueOf(2));
-
+			
+			it.goLeft();
 			it1.goLeft();
 			it2.goLeft();
-			it.goLeft();
+			
 
-			unionAux(it,it1,it2);
+			intersectionOuUnion(it,it1,it2,valeur);
 
 			it.goUp();
 			it1.goUp();
@@ -609,30 +548,62 @@ public class Image extends AbstractImage {
 			it1.goRight();
 			it2.goRight();
 			
-			unionAux(it,it1,it2);
+			intersectionOuUnion(it,it1,it2,valeur);
 			
 			it.goUp();
 			it1.goUp();
 			it2.goUp();
 		}
-		else if (it1.getValue().state == 0 && it2.getValue().state == 0) {
-			it.addValue(Node.valueOf(0));
-		}
+		
 		else if (it1.getValue().state == 2 && it2.getValue().state == 1) 
 				{
 			affectAux(it,it1);
-			//removeDoublons();
 			return;
 		}
 		else if (it1.getValue().state == 1 && it2.getValue().state == 2) {
 			affectAux(it,it2);
-			//removeDoublons();
 			return;
 		}
-		else if (it1.getValue().state == 1 || it2.getValue().state == 1){
-			it.addValue(Node.valueOf(1));
+		else if (it1.getValue().state == valeur && it2.getValue().state == valeur) {
+			//it.clear();
+			it.setValue(Node.valueOf(valeur));
+			removeDoublons(it);
+		}
+		else if (it1.getValue().state == 1-valeur || it2.getValue().state == 1-valeur){
+			//it.clear();
+			it.setValue(Node.valueOf(1-valeur));
+			removeDoublons(it);
 		}
 	}
+	
+
+	public void removeDoublons(Iterator<Node> it) {
+
+		try {
+			int gauche = -1;
+			int droite = -1;
+			it.goUp();
+			it.goLeft();
+			if (!it.nodeType().equals(NodeType.SENTINEL)) {
+				gauche = it.getValue().state;
+			}
+			it.goUp();
+			it.goRight();
+			if (!it.nodeType().equals(NodeType.SENTINEL)) {
+				droite = it.getValue().state;
+			}
+			it.goUp();
+			if (gauche != -1 && droite != -1 && gauche == droite) {
+				it.clear();
+				it.addValue(Node.valueOf(gauche));
+			}
+		} catch (AssertionError e) {
+			System.out.println("On est à la racine !");
+		}
+		
+	}
+	
+
 
 	/**
 	 * Attention : cette fonction ne doit pas utiliser la commande isPixelOn
