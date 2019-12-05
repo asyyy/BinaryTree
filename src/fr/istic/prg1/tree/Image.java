@@ -648,12 +648,37 @@ public class Image extends AbstractImage {
 	 */
 	@Override
 	public boolean sameLeaf(int x1, int y1, int x2, int y2) {
-		System.out.println();
-		System.out.println("-------------------------------------------------");
-		System.out.println("Fonction � �crire");
-		System.out.println("-------------------------------------------------");
-		System.out.println();
-		return false;
+		Dimension dim = new Dimension(256,256);
+		int xbas = 0;
+		int ybas = 0;
+		int cpt = 0;
+		Iterator<Node> it = this.iterator();
+		while(it.getValue().state == 2) {
+			cpt++;
+			if(cpt%2 == 1) {
+				if((dim.height + ybas)/2 <= y1){
+					ybas = (dim.height + ybas)/2;
+					if(ybas>=y2) return false;
+					it.goRight();
+				}else {
+					dim.height = (dim.height + ybas)/2;
+					if(ybas<y2) return false;
+					it.goLeft();
+				}
+			}else {
+				if((dim.width + xbas)/2 <= x1){
+					xbas = (dim.width+ xbas)/2;
+					if(xbas>=x2) return false;
+					it.goRight();
+				}else {
+					dim.width = (dim.width+ xbas)/2;
+					if(xbas<x2) return false;
+					it.goLeft();
+				}
+			}
+		}
+		return true;
+	}
 	}
 
 	/**
