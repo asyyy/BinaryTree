@@ -658,27 +658,26 @@ public class Image extends AbstractImage {
 			if(cpt%2 == 1) {
 				if((dim.height + ybas)/2 <= y1){
 					ybas = (dim.height + ybas)/2;
-					if(ybas>=y2) return false;
+					if(ybas>y2) return false;
 					it.goRight();
 				}else {
 					dim.height = (dim.height + ybas)/2;
-					if(ybas<y2) return false;
+					if(dim.height<=y2) return false;
 					it.goLeft();
 				}
 			}else {
 				if((dim.width + xbas)/2 <= x1){
 					xbas = (dim.width+ xbas)/2;
-					if(xbas>=x2) return false;
+					if(xbas>x2) return false;
 					it.goRight();
 				}else {
 					dim.width = (dim.width+ xbas)/2;
-					if(xbas<x2) return false;
+					if(dim.width<=x2) return false;
 					it.goLeft();
 				}
 			}
 		}
 		return true;
-	}
 	}
 
 	/**
