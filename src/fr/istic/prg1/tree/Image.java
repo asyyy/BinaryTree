@@ -528,16 +528,14 @@ public class Image extends AbstractImage {
 	*/
 
 	public void intersectionOuUnion(Iterator<Node> it, Iterator<Node> it1, Iterator<Node> it2, int valeur) {
-		
-		if(it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
+
+		if (it1.nodeType().equals(NodeType.DOUBLE) && it2.nodeType().equals(NodeType.DOUBLE)) {
 
 			it.addValue(Node.valueOf(2));
 
 			it.goLeft();
 			it1.goLeft();
 			it2.goLeft();
-
-			int gauche = it.getValue().state;
 			
 			intersectionOuUnion(it, it1, it2, valeur);
 
@@ -549,38 +547,46 @@ public class Image extends AbstractImage {
 			it1.goRight();
 			it2.goRight();
 
-			int droite = it.getValue().state;
+			
 			intersectionOuUnion(it, it1, it2, valeur);
 
 			it.goUp();
 			it1.goUp();
 			it2.goUp();
 			
+			it.goLeft();
+			int gauche = it.getValue().state;
+			it.goUp();
+			
+			it.goRight();
+			int droite = it.getValue().state;
+			
+			it.goUp();
+			
 			if (gauche == droite && droite != 2) {
 				it.clear();
-				it.setValue(Node.valueOf(droite));
+				it.addValue(Node.valueOf(droite));
 			}
+			
+		}
+
+		else if (it1.getValue().state == 2 && it2.getValue().state == 1 - valeur) {
+			affectAux(it, it1);
+
+		} else if (it1.getValue().state == 1 - valeur && it2.getValue().state == 2) {
+			affectAux(it, it2);
+
+		} else if (it1.getValue().state == 1 - valeur && it2.getValue().state == 1 - valeur) {
+			
+			it.addValue(Node.valueOf(1 -valeur));
+			
+
+		} else if (it1.getValue().state == valeur || it2.getValue().state == valeur) {
+			
+			it.addValue(Node.valueOf(valeur));
+			
 		}
 		
-		else if (it1.getValue().state == 2 && it2.getValue().state == 1) 
-				{
-			affectAux(it,it1);
-			return;
-		}
-		else if (it1.getValue().state == 1 && it2.getValue().state == 2) {
-			affectAux(it,it2);
-			return;
-		}
-		else if (it1.getValue().state == valeur && it2.getValue().state == valeur) {
-			//it.clear();
-			it.setValue(Node.valueOf(valeur));
-			removeDoublons(it);
-		}
-		else if (it1.getValue().state == 1-valeur || it2.getValue().state == 1-valeur){
-			//it.clear();
-			it.setValue(Node.valueOf(1-valeur));
-			removeDoublons(it);
-		}
 	}
 	
 
