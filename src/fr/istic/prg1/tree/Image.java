@@ -8,6 +8,7 @@ import fr.istic.prg1.tree_util.Iterator;
 import fr.istic.prg1.tree_util.Node;
 import fr.istic.prg1.tree_util.NodeType;
 
+
 /**
  * @author Mickaël Foursov <foursov@univ-rennes1.fr>
  * @version 5.0
@@ -491,7 +492,7 @@ public class Image extends AbstractImage {
 		Iterator<Node> it1 = image1.iterator();
 		Iterator<Node> it2 = image2.iterator();
 		it.clear();
-		intersectionOuUnion(it,it1,it2,1);
+		intersectionOuUnion(it,it1,it2,0);
 		
 	}
 	
@@ -509,7 +510,7 @@ public class Image extends AbstractImage {
 		Iterator<Node> it1 = image1.iterator();
 		Iterator<Node> it2 = image2.iterator();
 		it.clear();
-		intersectionOuUnion(it,it1,it2,0);
+		intersectionOuUnion(it,it1,it2,1);
 	}
 	
 	/**

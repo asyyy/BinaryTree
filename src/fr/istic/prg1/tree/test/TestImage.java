@@ -10,6 +10,7 @@ import fr.istic.prg1.tree.Image;
 import fr.istic.prg1.tree_util.Iterator;
 import fr.istic.prg1.tree_util.Node;
 import static org.junit.Assert.assertTrue;
+import fr.istic.prg1.tree.BinaryTree;
 
 /**
  * @author Mickaël Foursov <foursov@univ-rennes1.fr>
