@@ -10,6 +10,10 @@ import fr.istic.prg1.tree_util.NodeType;
 
 
 /**
+ * 
+ *  PROVOST HUGO - GUERIN ALEXYS
+ * 
+ * 
  * @author Mickaël Foursov <foursov@univ-rennes1.fr>
  * @version 5.0
  * @since 2016-04-20
