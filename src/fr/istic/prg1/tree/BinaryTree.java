@@ -6,19 +6,26 @@ import fr.istic.prg1.tree_util.Iterator;
 import fr.istic.prg1.tree_util.NodeType;
 
 /**
- * @author Mickaël Foursov <foursov@univ-rennes1.fr>
+ * 
+ *  PROVOST HUGO - GUERIN ALEXYS
+ * 
+ * 
+ * 
+ * 
+ * 
+ * @author MickaÃ«l Foursov <foursov@univ-rennes1.fr>
  * @version 4.0
  * @since 2015-06-15
  * @param <T>
  *            type formel d'objet pour la classe
  *
- *            Les arbres binaires sont construits par chaînage par références
- *            pour les fils et une pile de pères.
+ *            Les arbres binaires sont construits par chaÃ®nage par rÃ©fÃ©rences
+ *            pour les fils et une pile de pÃ¨res.
  */
 public class BinaryTree<T> {
 
 	/**
-	 * Type représentant les noeuds.
+	 * Type reprÃ©sentant les noeuds.
 	 */
 	private class Element {
 		public T value;
@@ -43,7 +50,7 @@ public class BinaryTree<T> {
 
 	/**
 	 * @return Un nouvel iterateur sur l'arbre this. Le noeud courant de
-	 *         l’itérateur est positionné sur la racine de l’arbre.
+	 *         lâ€™itÃ©rateur est positionnÃ© sur la racine de lâ€™arbre.
 	 */
 	public TreeIterator iterator() {
 	    return this.iterator();
@@ -57,7 +64,7 @@ public class BinaryTree<T> {
 	}
 
 	/**
-	 * Classe représentant les itérateurs sur les arbres binaires.
+	 * Classe reprÃ©sentant les itÃ©rateurs sur les arbres binaires.
 	 */
 	public class TreeIterator implements Iterator<T> {
 		private Element currentNode;
@@ -69,9 +76,9 @@ public class BinaryTree<T> {
 		}
 
 		/**
-		 * L'itérateur se positionnne sur le fils gauche du noeud courant.
+		 * L'itÃ©rateur se positionnne sur le fils gauche du noeud courant.
 		 * 
-		 * @pre Le noeud courant n’est pas un butoir.
+		 * @pre Le noeud courant nâ€™est pas un butoir.
 		 */
 		@Override
 		public void goLeft() {
@@ -86,9 +93,9 @@ public class BinaryTree<T> {
 		}
 
 		/**
-		 * L'itérateur se positionnne sur le fils droit du noeud courant.
+		 * L'itÃ©rateur se positionnne sur le fils droit du noeud courant.
 		 * 
-		 * @pre Le noeud courant n’est pas un butoir.
+		 * @pre Le noeud courant nâ€™est pas un butoir.
 		 */
 		@Override
 		public void goRight() {
@@ -103,9 +110,9 @@ public class BinaryTree<T> {
 		}
 
 		/**
-		 * L'itérateur se positionnne sur le père du noeud courant.
+		 * L'itÃ©rateur se positionnne sur le pÃ¨re du noeud courant.
 		 * 
-		 * @pre Le noeud courant n’est pas la racine.
+		 * @pre Le noeud courant nâ€™est pas la racine.
 		 */
 		@Override
 		public void goUp() {
@@ -119,7 +126,7 @@ public class BinaryTree<T> {
 		}
 
 		/**
-		 * L'itérateur se positionne sur la racine de l'arbre.
+		 * L'itÃ©rateur se positionne sur la racine de l'arbre.
 		 */
 		@Override
 		public void goRoot() {
@@ -174,7 +181,7 @@ public class BinaryTree<T> {
 		}
 
 		/**
-		 * Vider le sous–arbre référencé par le noeud courant, qui devient
+		 * Vider le sousâ€“arbre rÃ©fÃ©rencÃ© par le noeud courant, qui devient
 		 * butoir.
 		 */
 		@Override
@@ -192,12 +199,12 @@ public class BinaryTree<T> {
 		}
 
 		/**
-		 * Créer un nouveau noeud de valeur v à cet endroit.
+		 * CrÃ©er un nouveau noeud de valeur v Ã  cet endroit.
 		 * 
 		 * @pre Le noeud courant est un butoir.
 		 * 
 		 * @param v
-		 *            Valeur à ajouter.
+		 *            Valeur Ã  ajouter.
 		 */
 
 		@Override
@@ -243,10 +250,10 @@ public class BinaryTree<T> {
 		}
 
 		/**
-		 * Echanger les valeurs associ�es au noeud courant et � son p�re d'ordre
-		 *  i (le noeud courant reste inchang�).
+		 * Echanger les valeurs associées au noeud courant et à  son père d'ordre
+		 *  i (le noeud courant reste inchangé).
 		 * 
-		 * @pre i>= 0 et racine est p�re du noeud courant d'ordre  >= i.
+		 * @pre i>= 0 et racine est père du noeud courant d'ordre  >= i.
 		 * 
 		 * @param i
 		 *            ordre du pre
